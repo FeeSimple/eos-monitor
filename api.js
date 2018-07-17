@@ -15,10 +15,14 @@ var ObjectId = require("mongodb").ObjectID;
 var MongoClient = require("mongodb").MongoClient;
 var dbo;
 
-// Config
+// Config MongoDB
 var url = "mongodb://localhost:27017";
 var dbName = "EOStest";
 var listLimit = 10;
+
+// Config api endpoint
+const apiPort = "4001";
+const apiIP = "0.0.0.0";
 
 var data = [
     {
@@ -45,8 +49,8 @@ MongoClient.connect(url, true, function (err, db) {
         throw err;
     }
     dbo = db.db(dbName);
-    app.listen(3000, "0.0.0.0", function () {
-        console.log("Example app listening on port 3000!");
+    app.listen(apiPort, apiIP, function () {
+        console.log("Example app listening on port ", apiPort);
     });
 });
 
