@@ -22,7 +22,7 @@ var listLimit = 10;
 
 // Config api endpoint
 const apiPort = "4001";
-const apiIP = "0.0.0.0";
+const apiIP = "127.0.0.1";
 
 var data = [
     {

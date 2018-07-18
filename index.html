@@ -789,7 +789,7 @@
             activeTabName: 'dashboard',
             testnetEndpoint: "127.0.0.1",
             apiEndPoint: "http://127.0.0.1",
-            nodeApiUrlBase: ":3000",
+            nodeApiUrlBase: ":4001",
             httpRpcApiUrlBase: ":8877",
             errorMsg: "",
 
@@ -834,7 +834,8 @@
                     item.listLoading = false;
                     item.msgLoading = false;
 
-                    axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint + "/count")
+                    // axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint + "/count")
+                    axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint)
                         .then(function (response) {
                             item.total = miliFormat(response.data["count"])
                         })
