@@ -38,10 +38,10 @@
                         <p>Two Servers run eosd to receive blocks from testnet1.eos.io</p>
                     </div>
                     <div>
-                        <el-radio v-model="apiEndPoint" label="http://127.0.0.1:8877">
+                        <el-radio v-model="apiEndPoint" label="http://138.197.194.220:8877">
                             Mirror Node a
                         </el-radio>
-                        <el-radio v-model="apiEndPoint" label="http://127.0.0.1:8877">
+                        <el-radio v-model="apiEndPoint" label="http://138.197.194.220:8877">
                             Mirror Node b</el-radio>
                     </div>
                 </el-tooltip>
@@ -105,7 +105,7 @@
                                             label="Block Num">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="producer_account_id"
+                                            prop="block_id"
                                             label="Producer">
                                     </el-table-column>
                                     <el-table-column
@@ -787,7 +787,7 @@
 
 
             activeTabName: 'dashboard',
-            testnetEndpoint: "127.0.0.1",
+            testnetEndpoint: "http://138.197.194.220",
             apiEndPoint: "http://127.0.0.1",
             nodeApiUrlBase: ":4001",
             httpRpcApiUrlBase: ":8877",
@@ -834,8 +834,7 @@
                     item.listLoading = false;
                     item.msgLoading = false;
 
-                    // axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint + "/count")
-                    axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint)
+                    axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint + "/count")
                         .then(function (response) {
                             item.total = miliFormat(response.data["count"])
                         })
@@ -847,7 +846,7 @@
 
             getInfo: function () {
                 var vm = this;
-                axios.get(vm.apiEndPoint + vm.httpRpcApiUrlBase + '/v1/chain/get_info')
+                axios.get(vm.testnetEndpoint + vm.httpRpcApiUrlBase + '/v1/chain/get_info')
                     .then(function (response) {
                         vm.infoMsg = response.data
                     })
@@ -888,14 +887,19 @@
                 var vm = this;
                 item.listLoading = true;
                 item.rawList = [];
-                axios.get(vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint)
+                console.log('get_list - item: ', item);
+                const apiUrl = vm.apiEndPoint + vm.nodeApiUrlBase + item.apiEndPoint;
+                console.log('apiUrl: ', apiUrl);
+                axios.get(apiUrl)
                     .then(function (response) {
                         item.rawList = response.data;
                         item.listLoading = false;
+                        console.log('response.data: ', response.data);
                     })
                     .catch(function (error) {
                         vm.show_error_msg(error);
-                        item.listLoading = false
+                        item.listLoading = false;
+                        console.log('error: ', error);
                     });
             },
 

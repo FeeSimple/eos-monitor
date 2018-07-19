@@ -27,15 +27,15 @@ const apiIP = "127.0.0.1";
 var data = [
     {
         "baseName": "accounts",
-        "tableName": "Accounts"
+        "tableName": "accounts"
     },
     {
         "baseName": "blocks",
-        "tableName": "Blocks"
+        "tableName": "blocks"
     },
     {
         "baseName": "transactions",
-        "tableName": "Transactions"
+        "tableName": "transactions"
     },
     {
         "baseName": "messages",
@@ -61,20 +61,24 @@ app.get("/", function (req, res) {
 
 data.forEach(function (item) {
     // Count functions
-    app.get("/" + item.baseName + "/count", function (req, res) {
+    var apiCount = "/" + item.baseName + "/count";
+    console.log('apiCount: ', apiCount);
+    console.log('baseName: ', item.baseName, ', tableName: ', item.tableName);
+    app.get(apiCount, function (req, res) {
         dbo.collection(item.tableName).count(function (err, result) {
             if (err) throw err;
-            console.log(result);
+            console.log('apiCount - result: ',result);
             res.send({count: result})
 
         });
     });
 
     // List functions
-    app.get("/" + item.baseName + "/", function (req, res) {
+    var apiList = "/" + item.baseName + "/";
+    app.get(apiList, function (req, res) {
         dbo.collection(item.tableName).find().sort({createdAt: -1}).limit(listLimit).toArray(function (err, result) {
             if (err) throw err;
-            console.log(result);
+            console.log('apiList: ', apiList, ' - result: ', result);
             res.send(result)
         });
     });
@@ -101,7 +105,7 @@ app.get("/accounts/name/:name", function (req, res) {
 app.get("/blocks/b/:id", function (req, res) {
     dbo.collection("Blocks").findOne({"block_id": req.params.id}, function (err, result) {
         if (err) throw err;
-        console.log(result);
+        console.log('/blocks/b - result:', result);
         res.send(result)
     });
 });
